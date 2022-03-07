@@ -1,21 +1,7 @@
-type RootVariablesItem = {
-  key: string
-  value: string
-  priority: string
-}
+import type { RootVariablesParamMap, SetRootVariablesParams } from './type'
 
-type PickedRootVariablesItem = Pick<RootVariablesItem, 'value' | 'priority'>
-
-type RootVariablesParamValue =
-  | string
-  | PickedRootVariablesItem
-  | ((param: PickedRootVariablesItem) => PickedRootVariablesItem)
-
-type RootVariablesParamMap = Record<string, RootVariablesParamValue>
-
-type setRootVariablesParams = RootVariablesItem[] | RootVariablesParamMap
-
-export class ThemeVariablesManager {
+const defaultCacheKey = 'global-theme'
+export class DomStyleManager {
   root: HTMLElement
   style: CSSStyleDeclaration
   constructor (dom?: HTMLElement) {
@@ -23,7 +9,7 @@ export class ThemeVariablesManager {
     this.style = this.root.style
   }
 
-  setRootVariables (param: setRootVariablesParams) {
+  setRootVariables (param: SetRootVariablesParams) {
     if (Array.isArray(param)) {
       for (let i = 0; i < param.length; i++) {
         const { key, value, priority } = param[i]
@@ -79,8 +65,7 @@ export class ThemeVariablesManager {
     return this.style.getPropertyPriority(property)
   }
 
-  sync (key = 'global') {
-    const cacheKey = `${key}-theme`
+  sync (cacheKey = defaultCacheKey) {
     const theme = window.sessionStorage.getItem(cacheKey)
     if (theme) {
       try {
@@ -93,16 +78,15 @@ export class ThemeVariablesManager {
     }
   }
 
-  saveTheme (theme: Record<string, string>, key = 'global') {
-    const cacheKey = `${key}-theme`
+  saveTheme (theme: Record<string, string>, cacheKey = defaultCacheKey) {
     window.sessionStorage.setItem(cacheKey, JSON.stringify(theme))
   }
 }
 
 export const createGlobalThemeManager = () => {
-  return new ThemeVariablesManager()
+  return new DomStyleManager()
 }
 
 export const createDomThemeManager = (dom: HTMLElement) => {
-  return new ThemeVariablesManager(dom)
+  return new DomStyleManager(dom)
 }

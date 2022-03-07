@@ -1,7 +1,7 @@
 {
-  "name": "ThemeVariablesManager",
+  "name": "dom-styler",
   "version": "1.0.0",
-  "description": "ThemeVariablesManager",
+  "description": "dom-styler Manager",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "types": "dist/types/index.d.ts",
