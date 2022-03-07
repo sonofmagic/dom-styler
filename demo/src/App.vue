@@ -1,11 +1,30 @@
 <script setup lang="ts">
-// This starter template is using Vue 3 <script setup> SFCs
-// Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
-import HelloWorld from './components/HelloWorld.vue'
+import { ref, onMounted } from 'vue'
+import { createDocumentElementStyler, createDomStyler } from '../..'
+const dom1 = ref<HTMLElement>()
+const manager = createDocumentElementStyler()
+onMounted(() => {
+  console.log(dom1.value, manager)
+  const dom2 = createDomStyler(dom1.value as HTMLElement)
+  manager.setVariables({
+    'background-color': 'black'
+  })
+  dom2.setVariables([
+    {
+      color: {
+        value: 'blue',
+        priority: ''
+      }
+    }
+  ])
+  setTimeout(() => {
+    manager.removeProperty('background-color')
+  }, 2000)
+})
 </script>
 
 <template>
-  <HelloWorld msg="Hello Vue 3 + TypeScript + Vite" />
+  <div ref="dom1">123</div>
 </template>
 
 <style>

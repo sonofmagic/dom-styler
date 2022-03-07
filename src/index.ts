@@ -1,4 +1,4 @@
-import type { RootVariablesParamMap, SetRootVariablesParams } from './type'
+import type { VariablesParamMap, SetVariablesParams } from './type'
 
 const defaultCacheKey = 'global-theme'
 export class DomStyler {
@@ -9,12 +9,12 @@ export class DomStyler {
     this.style = this.root.style
   }
 
-  private handleParam (param: RootVariablesParamMap) {
-    Object.entries(param).reduce<RootVariablesParamMap>((acc, [k, v]) => {
+  private handleParam (param: VariablesParamMap) {
+    Object.entries(param).reduce<VariablesParamMap>((acc, [k, v]) => {
       if (typeof v === 'string') {
-        this.setRootSingleVariable(k, v)
+        this.setSingleVariable(k, v)
       } else if (typeof v === 'object') {
-        this.setRootSingleVariable(k, v.value, v.priority)
+        this.setSingleVariable(k, v.value, v.priority)
       } else if (typeof v === 'function') {
         const value2 = this.getPropertyValue(k)
         const priority2 = this.getPropertyPriority(k)
@@ -22,30 +22,27 @@ export class DomStyler {
           value: value2,
           priority: priority2
         })
-        this.setRootSingleVariable(k, value, priority)
+        this.setSingleVariable(k, value, priority)
       }
       acc[k] = v
       return acc
     }, {})
   }
 
-  setRootVariables (param: SetRootVariablesParams) {
+  setVariables (param: SetVariablesParams) {
     if (Array.isArray(param)) {
       for (let i = 0; i < param.length; i++) {
         this.handleParam(param[i])
       }
     } else if (typeof param === 'object') {
       this.handleParam(param)
+    } else {
+      throw new TypeError('param must be an object!')
     }
-    throw new TypeError('param must be an object!')
   }
 
-  setRootSingleVariable (
-    property: string,
-    value: string | null,
-    priority?: string
-  ) {
-    return this.style.setProperty(property, value, priority)
+  setSingleVariable (property: string, value?: string, priority?: string) {
+    return this.style.setProperty(property, value ?? null, priority)
   }
 
   removeProperty (property: string) {
@@ -69,7 +66,7 @@ export class DomStyler {
     if (theme) {
       try {
         const themeJson = JSON.parse(theme)
-        this.setRootVariables(themeJson)
+        this.setVariables(themeJson)
         return themeJson
       } catch (error) {
         window.sessionStorage.removeItem(cacheKey)

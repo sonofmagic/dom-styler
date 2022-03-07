@@ -1,13 +1,13 @@
 {
   "name": "dom-styler",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "dom-styler,manage your dom style easily!",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "types": "dist/types/index.d.ts",
   "scripts": {
     "dev": "cross-env NODE_ENV=development rollup -cw",
-    "build": "cross-env NODE_ENV=production rollup -c",
+    "build": "yarn clean && cross-env NODE_ENV=production rollup -c",
     "build:tsc": "cross-env NODE_ENV=development tsc --build tsconfig.json",
     "test": "jest",
     "init:rename": "node scripts/init/rename.js",

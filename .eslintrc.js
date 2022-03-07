@@ -19,8 +19,9 @@ function getJestGlobals (flag = true) {
 module.exports = {
   root: false,
   env: {
+    // https://eslint.bootcss.com/docs/user-guide/configuring
     es2021: true,
-    node: true
+    browser: true
   },
   extends: [
     'standard'

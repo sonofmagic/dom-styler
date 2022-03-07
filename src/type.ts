@@ -1,21 +1,13 @@
-export type RootVariablesItem = {
-  key: string
-  value: string
-  priority: string
+export type VariablesItem = {
+  value?: string
+  priority?: string
 }
 
-export type PickedRootVariablesItem = Pick<
-  RootVariablesItem,
-  'value' | 'priority'
->
-
-export type RootVariablesParamValue =
+export type VariablesParamValue =
   | string
-  | PickedRootVariablesItem
-  | ((param: PickedRootVariablesItem) => PickedRootVariablesItem)
+  | VariablesItem
+  | ((variables: VariablesItem) => VariablesItem)
 
-export type RootVariablesParamMap = Record<string, RootVariablesParamValue>
+export type VariablesParamMap = Record<string, VariablesParamValue>
 
-export type SetRootVariablesParams =
-  | RootVariablesParamMap[]
-  | RootVariablesParamMap
+export type SetVariablesParams = VariablesParamMap[] | VariablesParamMap
