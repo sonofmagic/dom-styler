@@ -1,7 +1,7 @@
 {
   "name": "dom-styler",
   "version": "1.0.0",
-  "description": "dom-styler Manager",
+  "description": "dom-styler,manage your dom style easily!",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "types": "dist/types/index.d.ts",
@@ -24,7 +24,14 @@
     "access": "public",
     "registry": "https://registry.npmjs.org"
   },
-  "keywords": [],
+  "keywords": [
+    "dom-styler",
+    "css",
+    "style",
+    "dom",
+    "theme",
+    "variables"
+  ],
   "author": "SonOfMagic <qq1324318532@gmail.com>",
   "license": "MIT",
   "bugs": {
@@ -45,7 +52,7 @@
     "cross-env": "^7.0.3",
     "defu": "^5.0.1",
     "del": "^6.0.0",
-    "eslint": "8.6.0",
+    "eslint": "8.10.0",
     "eslint-config-standard": "^16.0.3",
     "eslint-plugin-import": "2.25.4",
     "eslint-plugin-node": "11.1.0",

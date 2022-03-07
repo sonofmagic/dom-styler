@@ -16,4 +16,6 @@ export type RootVariablesParamValue =
 
 export type RootVariablesParamMap = Record<string, RootVariablesParamValue>
 
-export type SetRootVariablesParams = RootVariablesItem[] | RootVariablesParamMap
+export type SetRootVariablesParams =
+  | RootVariablesParamMap[]
+  | RootVariablesParamMap

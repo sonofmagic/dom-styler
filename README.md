@@ -1,16 +1,88 @@
-# npm-lib-template
+# dom-styler
 
-本人用于编写的一个 `npm` 包的一个模板
+> dom-styler,manage your dom style easily!
 
-- 使用 `tsc` 或者 `rollup` 打包
-- 使用 `jest` 设置作为单元测试
-- 使用 `eslint` 来规范代码风格，默认风格为 `standard`
-- 输出 `dist` -> `cjs`,`esm` and `.d.ts`
+## Usage
 
-## scripts
+```ts
+import {
+  DomStyler,
+  createDocumentElementStyler,
+  createDomStyler
+} from 'dom-styler'
 
-执行 `npm run init:rename`
- 
-作用为替换 `package.json` 中默认包含的所有名称为 `npm-lib-template` 的字段
+const manager = new DomStyler(dom)
+// same to
+const manager1 = createDomStyler(dom)
+// default document.documentElement
+const docManager = createDocumentElementStyler()
 
-默认替换为新建代码仓库的文件夹名称！
+const themeJson = {
+  width: '100px',
+  height: {
+    value: '100vh',
+    priority: 'important'
+  },
+  color: (value, priority) => {
+    return {
+      value: newValue,
+      priority: newPriority
+    }
+  }
+}
+// also you can set themeJson as an array
+const key = 'custom-theme'
+manager.setRootVariables(themeJson)
+manager.setRootSingleVariable(property, value, priority)
+manager.removeProperty(property)
+manager.getPropertyValue(property)
+manager.saveTheme(themeJson, key)
+manager.sync()
+```
+
+## APIS
+
+```ts
+export declare type RootVariablesItem = {
+  key: string
+  value: string
+  priority: string
+}
+export declare type PickedRootVariablesItem = Pick<
+  RootVariablesItem,
+  'value' | 'priority'
+>
+export declare type RootVariablesParamValue =
+  | string
+  | PickedRootVariablesItem
+  | ((param: PickedRootVariablesItem) => PickedRootVariablesItem)
+export declare type RootVariablesParamMap = Record<
+  string,
+  RootVariablesParamValue
+>
+export declare type SetRootVariablesParams =
+  | RootVariablesParamMap[]
+  | RootVariablesParamMap
+
+export declare class DomStyler {
+  root: HTMLElement
+  style: CSSStyleDeclaration
+  constructor(dom?: HTMLElement)
+  setRootVariables(
+    param: SetRootVariablesParams
+  ): RootVariablesParamMap | import('./type').RootVariablesItem[]
+  setRootSingleVariable(
+    property: string,
+    value: string | null,
+    priority?: string
+  ): void
+  removeProperty(property: string): string
+  item(index: number): string
+  getPropertyValue(property: string): string
+  getPropertyPriority(property: string): string
+  sync(cacheKey?: string): any
+  saveTheme(theme: Record<string, string>, cacheKey?: string): void
+}
+export declare const createDocumentElementStyler: () => DomStyler
+export declare const createDomStyler: (dom: HTMLElement) => DomStyler
+```

@@ -23,7 +23,7 @@ const config = {
       preferBuiltins: true
     }),
     commonjs(),
-    typescript({ tsconfig: './tsconfig.build.json' })
+    typescript({ tsconfig: './tsconfig.build.json', sourceMap: isDev })
   ],
   external: [...(pkg.dependencies ? Object.keys(pkg.dependencies) : [])]
 }

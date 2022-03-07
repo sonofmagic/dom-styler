@@ -1,7 +1,7 @@
 import type { RootVariablesParamMap, SetRootVariablesParams } from './type'
 
 const defaultCacheKey = 'global-theme'
-export class DomStyleManager {
+export class DomStyler {
   root: HTMLElement
   style: CSSStyleDeclaration
   constructor (dom?: HTMLElement) {
@@ -9,34 +9,33 @@ export class DomStyleManager {
     this.style = this.root.style
   }
 
+  private handleParam (param: RootVariablesParamMap) {
+    Object.entries(param).reduce<RootVariablesParamMap>((acc, [k, v]) => {
+      if (typeof v === 'string') {
+        this.setRootSingleVariable(k, v)
+      } else if (typeof v === 'object') {
+        this.setRootSingleVariable(k, v.value, v.priority)
+      } else if (typeof v === 'function') {
+        const value2 = this.getPropertyValue(k)
+        const priority2 = this.getPropertyPriority(k)
+        const { value, priority } = v({
+          value: value2,
+          priority: priority2
+        })
+        this.setRootSingleVariable(k, value, priority)
+      }
+      acc[k] = v
+      return acc
+    }, {})
+  }
+
   setRootVariables (param: SetRootVariablesParams) {
     if (Array.isArray(param)) {
       for (let i = 0; i < param.length; i++) {
-        const { key, value, priority } = param[i]
-        this.setRootSingleVariable(key, value, priority)
+        this.handleParam(param[i])
       }
-      return param
     } else if (typeof param === 'object') {
-      return Object.entries(param).reduce<RootVariablesParamMap>(
-        (acc, [k, v]) => {
-          if (typeof v === 'string') {
-            this.setRootSingleVariable(k, v)
-          } else if (typeof v === 'object') {
-            this.setRootSingleVariable(k, v.value, v.priority)
-          } else if (typeof v === 'function') {
-            const value2 = this.getPropertyValue(k)
-            const priority2 = this.getPropertyPriority(k)
-            const { value, priority } = v({
-              value: value2,
-              priority: priority2
-            })
-            this.setRootSingleVariable(k, value, priority)
-          }
-          acc[k] = v
-          return acc
-        },
-        {}
-      )
+      this.handleParam(param)
     }
     throw new TypeError('param must be an object!')
   }
@@ -83,10 +82,10 @@ export class DomStyleManager {
   }
 }
 
-export const createGlobalThemeManager = () => {
-  return new DomStyleManager()
+export const createDocumentElementStyler = () => {
+  return new DomStyler()
 }
 
-export const createDomThemeManager = (dom: HTMLElement) => {
-  return new DomStyleManager(dom)
+export const createDomStyler = (dom: HTMLElement) => {
+  return new DomStyler(dom)
 }
