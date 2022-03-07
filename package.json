@@ -1,7 +1,7 @@
 {
-  "name": "npm-lib-template",
+  "name": "ThemeVariablesManager",
   "version": "1.0.0",
-  "description": "npm-lib-template",
+  "description": "ThemeVariablesManager",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "types": "dist/types/index.d.ts",
@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sonofmagic/npm-lib-template.git"
+    "url": "git+https://github.com/sonofmagic/ThemeVariablesManager.git"
   },
   "files": [
     "dist"
@@ -28,9 +28,9 @@
   "author": "SonOfMagic <qq1324318532@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/sonofmagic/npm-lib-template/issues"
+    "url": "https://github.com/sonofmagic/ThemeVariablesManager/issues"
   },
-  "homepage": "https://github.com/sonofmagic/npm-lib-template#readme",
+  "homepage": "https://github.com/sonofmagic/ThemeVariablesManager#readme",
   "devDependencies": {
     "@rollup/plugin-alias": "^3.1.8",
     "@rollup/plugin-commonjs": "^21.0.1",
@@ -43,6 +43,7 @@
     "@typescript-eslint/eslint-plugin": "^5.8.0",
     "@typescript-eslint/parser": "^5.8.0",
     "cross-env": "^7.0.3",
+    "defu": "^5.0.1",
     "del": "^6.0.0",
     "eslint": "8.6.0",
     "eslint-config-standard": "^16.0.3",

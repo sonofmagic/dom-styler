@@ -12,8 +12,8 @@ const config = {
     {
       file: pkg.main,
       format: 'cjs',
-      sourcemap: isDev
-      // exports: 'auto'
+      sourcemap: isDev,
+      exports: 'auto'
     },
     { format: 'esm', file: pkg.module, sourcemap: isDev }
   ],
