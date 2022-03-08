@@ -12,21 +12,30 @@ let styleSheetDom: HTMLStyleElement
 const setBlue = () => {
   styleSheetDom.innerText = '.a { color : blue; }'
 }
+const removeDom = () => {
+  document.head.removeChild(styleSheetDom)
+}
 const observer = new MutationObserver((mutationsList, observer) => {
   console.log(mutationsList)
   for (const mutation of mutationsList) {
     if (mutation.type === 'childList') {
-      console.log('A child node has been added or removed.')
-    } else if (mutation.type === 'attributes') {
-      console.log('The ' + mutation.attributeName + ' attribute was modified.')
+      mutation.addedNodes.forEach((x) => {
+        if (x instanceof HTMLStyleElement) {
+          // x.media = 'abc'
+        }
+      })
+      // mutation.removedNodes
     }
+    // else if (mutation.type === 'attributes') {
+    //   console.log('The ' + mutation.attributeName + ' attribute was modified.')
+    // }
   }
 })
 onMounted(() => {
   observer.observe(document.head, {
     attributes: true,
-    childList: true,
-    subtree: true
+    childList: true
+    // subtree: true
   })
   const p = {
     color: 'pink',
@@ -49,6 +58,7 @@ onBeforeUnmount(() => {
 <template>
   <div ref="dom1" class="a">123</div>
   <button @click="setBlue">blue</button>
+  <button @click="removeDom">remove</button>
 </template>
 
 <style>
