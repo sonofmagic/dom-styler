@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { nanoid } from 'nanoid'
 import { parse, stringify, Root, Rule, Declaration } from 'postcss'
 import { createDocumentElementStyler, createDomStyler } from '../..'
@@ -12,7 +12,22 @@ let styleSheetDom: HTMLStyleElement
 const setBlue = () => {
   styleSheetDom.innerText = '.a { color : blue; }'
 }
+const observer = new MutationObserver((mutationsList, observer) => {
+  console.log(mutationsList)
+  for (const mutation of mutationsList) {
+    if (mutation.type === 'childList') {
+      console.log('A child node has been added or removed.')
+    } else if (mutation.type === 'attributes') {
+      console.log('The ' + mutation.attributeName + ' attribute was modified.')
+    }
+  }
+})
 onMounted(() => {
+  observer.observe(document.head, {
+    attributes: true,
+    childList: true,
+    subtree: true
+  })
   const p = {
     color: 'pink',
     background: 'black'
@@ -24,6 +39,10 @@ onMounted(() => {
   styleSheetDom = document.createElement('style')
   styleSheetDom.innerText = innerText
   document.head.appendChild(styleSheetDom)
+})
+
+onBeforeUnmount(() => {
+  observer.disconnect()
 })
 </script>
 
