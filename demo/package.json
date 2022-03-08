@@ -8,6 +8,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "nanoid": "^3.3.1",
+    "postcss": "^8.4.8",
     "vue": "^3.2.25"
   },
   "devDependencies": {

@@ -1,30 +1,35 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+import { nanoid } from 'nanoid'
+import { parse, stringify, Root, Rule, Declaration } from 'postcss'
 import { createDocumentElementStyler, createDomStyler } from '../..'
 const dom1 = ref<HTMLElement>()
 const manager = createDocumentElementStyler()
+
+// const styleSheet = new StyleSheet()
+// styleSheet.disabled = true
+let styleSheetDom: HTMLStyleElement
+const setBlue = () => {
+  styleSheetDom.innerText = '.a { color : blue; }'
+}
 onMounted(() => {
-  console.log(dom1.value, manager)
-  const dom2 = createDomStyler(dom1.value as HTMLElement)
-  manager.setVariables({
-    'background-color': 'black'
-  })
-  dom2.setVariables([
-    {
-      color: {
-        value: 'blue',
-        priority: ''
-      }
-    }
-  ])
-  setTimeout(() => {
-    manager.removeProperty('background-color')
-  }, 2000)
+  const p = {
+    color: 'pink',
+    background: 'black'
+  }
+  const innerText = '.a { color : red; }'
+  const css = parse(innerText)
+  console.log(css)
+
+  styleSheetDom = document.createElement('style')
+  styleSheetDom.innerText = innerText
+  document.head.appendChild(styleSheetDom)
 })
 </script>
 
 <template>
-  <div ref="dom1">123</div>
+  <div ref="dom1" class="a">123</div>
+  <button @click="setBlue">blue</button>
 </template>
 
 <style>
