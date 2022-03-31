@@ -2,7 +2,9 @@
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { nanoid } from 'nanoid'
 import css from 'css'
-import { parse, stringify, Root, Rule, Declaration } from 'postcss'
+import { parse, stringify } from 'postcss'
+// @ts-ignore
+import postcssJs from 'postcss-js'
 import { createDocumentElementStyler, createDomStyler } from '../..'
 const dom1 = ref<HTMLElement>()
 // const manager = createDocumentElementStyler()
