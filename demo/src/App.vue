@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { nanoid } from 'nanoid'
+import css from 'css'
 import { parse, stringify, Root, Rule, Declaration } from 'postcss'
 import { createDocumentElementStyler, createDomStyler } from '../..'
 const dom1 = ref<HTMLElement>()
@@ -9,8 +10,9 @@ const dom1 = ref<HTMLElement>()
 // const styleSheet = new StyleSheet()
 // styleSheet.disabled = true
 let styleSheetDom: HTMLStyleElement
+let selector = nanoid()
 const setBlue = () => {
-  styleSheetDom.innerText = '.a { color : blue; }'
+  styleSheetDom.innerText = `.${selector} {color : blue;}`
 }
 const removeDom = () => {
   document.head.removeChild(styleSheetDom)
@@ -31,6 +33,7 @@ const observer = new MutationObserver((mutationsList, observer) => {
     // }
   }
 })
+
 onMounted(() => {
   observer.observe(document.head, {
     attributes: true,
@@ -41,7 +44,9 @@ onMounted(() => {
     color: 'pink',
     background: 'black'
   }
-  const innerText = '.a { color : red; }'
+  // css-in-js-syntax
+  dom1.value?.classList.add(selector)
+  const innerText = `.${selector} {color : red;}`
   const css = parse(innerText)
   console.log(css)
 
@@ -56,7 +61,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div ref="dom1" class="a">123</div>
+  <div ref="dom1">123</div>
   <button @click="setBlue">blue</button>
   <button @click="removeDom">remove</button>
 </template>

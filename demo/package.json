@@ -11,6 +11,7 @@
     "css": "^3.0.0",
     "nanoid": "^3.3.1",
     "postcss": "^8.4.8",
+    "postcss-js": "^4.0.0",
     "vue": "^3.2.25"
   },
   "devDependencies": {
