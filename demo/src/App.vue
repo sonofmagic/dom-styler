@@ -4,7 +4,7 @@ import { nanoid } from 'nanoid'
 import { parse, stringify, Root, Rule, Declaration } from 'postcss'
 import { createDocumentElementStyler, createDomStyler } from '../..'
 const dom1 = ref<HTMLElement>()
-const manager = createDocumentElementStyler()
+// const manager = createDocumentElementStyler()
 
 // const styleSheet = new StyleSheet()
 // styleSheet.disabled = true
